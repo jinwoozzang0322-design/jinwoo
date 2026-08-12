@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput, Button, Linking, Alert } from 'react-native';
 
-// 1. 메인 화면 및 네비게이션 역할
+
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('Home');
 
@@ -26,9 +26,9 @@ export default function App() {
   );
 }
 
-// --- 개별 화면 컴포넌트 ---
 
-// 메인 홈 화면
+
+
 const HomeScreen = ({ onNavigate }) => (
   <ScrollView contentContainerStyle={styles.screen}>
     <Text style={styles.description}>원하시는 서비스를 선택해주세요.</Text>
@@ -40,7 +40,7 @@ const HomeScreen = ({ onNavigate }) => (
   </ScrollView>
 );
 
-// 1. 주변 저상버스 화면
+
 const BusInfoScreen = ({ onBack }) => (
   <View style={styles.screen}>
     <Text style={styles.title}>아현역 주변 저상버스</Text>
@@ -51,7 +51,6 @@ const BusInfoScreen = ({ onBack }) => (
   </View>
 );
 
-// 2. 아현역 편의시설 화면
 const SubwayInfoScreen = ({ onBack }) => (
   <View style={styles.screen}>
     <Text style={styles.title}>아현역 편의시설 (2호선)</Text>
@@ -62,7 +61,7 @@ const SubwayInfoScreen = ({ onBack }) => (
   </View>
 );
 
-// 3. 서대문구 서비스 화면
+
 const SeodaemunServicesScreen = ({ onBack }) => (
   <View style={styles.screen}>
     <Text style={styles.title}>서대문구 교통약자 지원 서비스</Text>
@@ -73,10 +72,9 @@ const SeodaemunServicesScreen = ({ onBack }) => (
   </View>
 );
 
-// 4. 장애인 콜택시 연결 화면
 const CallTaxiScreen = ({ onBack }) => {
   const openCallTaxiApp = () => {
-    // 실제로는 콜택시 전화번호나 공식 앱 딥링크(Deep Link), 또는 예약 웹사이트로 연결합니다.
+  
     Linking.openURL('https://www.sisul.or.kr/open_content/calltaxi/');
   };
 
@@ -92,7 +90,7 @@ const CallTaxiScreen = ({ onBack }) => {
   );
 };
 
-// 5. 의견 제시 화면
+
 const FeedbackScreen = ({ onBack }) => {
   const [text, setText] = useState('');
 
@@ -120,7 +118,6 @@ const FeedbackScreen = ({ onBack }) => {
   );
 };
 
-// --- 스타일링 ---
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8F9FA' },
   header: { paddingTop: 60, paddingBottom: 20, backgroundColor: '#0056B3', alignItems: 'center' },
