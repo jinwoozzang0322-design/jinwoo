@@ -23,13 +23,13 @@
             background-color: white;
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            overflow: hidden; /* 영역 밖으로 나가는 것 숨김 */
+            overflow: hidden;
             position: relative;
         }
 
-        /* ⭐️ 핵심 1: 모든 화면을 기본적으로 완벽하게 숨김 ⭐️ */
+        /* 모든 화면 기본 숨김 */
         .app-screen {
-            display: none !important; /* 어떤 상황에서도 강제로 숨김 처리 */
+            display: none !important; 
             width: 100%;
             height: 100%;
             padding: 20px;
@@ -39,17 +39,16 @@
             background-color: white;
         }
 
-        /* ⭐️ 핵심 2: active 클래스가 붙은 화면만 보여줌 ⭐️ */
+        /* 활성화된 화면만 보여줌 */
         .app-screen.active {
-            display: flex !important; /* 이 클래스가 있을 때만 강제로 보여줌 */
+            display: flex !important; 
         }
 
-        /* 텍스트 및 버튼 디자인 */
-        h2 { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; font-size: 18px;}
         
-        /* 버튼들을 아래로 밀어내기 위한 여백용 요소 */
         .spacer { flex-grow: 1; }
         
+        /* 버튼 디자인 */
         button {
             width: 100%;
             padding: 15px;
@@ -67,10 +66,27 @@
         .btn-blue { background-color: #3b5bdb; color: white; }
         .btn-green { background-color: #2b8a3e; color: white; }
         .btn-dark { background-color: #343a40; color: white; }
+        .btn-outline { background-color: white; color: #333; border: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;}
         
-        /* 리스트(버스, 시설 정보) 디자인 */
+        /* 지하철 호선 뱃지 */
+        .badge { padding: 3px 8px; border-radius: 12px; font-size: 12px; color: white; font-weight: bold; margin-left: 5px; }
+        .line-2 { background-color: #00A84D; } /* 2호선 초록색 */
+        .line-5 { background-color: #996CAC; } /* 5호선 보라색 */
+
+        /* 버스 리스트 디자인 */
         ul { list-style: none; padding: 0; margin: 0; }
-        ul li { padding: 15px 0; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; }
+        ul li { 
+            padding: 15px 5px; 
+            border-bottom: 1px solid #ddd; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .bus-num { font-size: 20px; font-weight: bold; color: #3b5bdb; }
+        .bus-num.jisun { color: #2b8a3e; } /* 지선버스 초록색 */
+        .bus-type { font-size: 12px; color: #666; margin-left: 5px; }
+        .bus-info { text-align: right; font-size: 14px; font-weight: bold;}
+        .bus-info small { display: block; font-size: 11px; color: #888; font-weight: normal;}
     </style>
 </head>
 <body>
@@ -78,52 +94,4 @@
 <div id="app-container">
 
     <div id="screen-home" class="app-screen active">
-        <h1 style="text-align: center; margin-top: 50px;">환영합니다!</h1>
-        <p style="text-align: center; color: #666;">원하시는 서비스를<br>아래에서 선택해 주세요.</p>
-        <div class="spacer"></div>
-        <button class="btn-blue" onclick="changeScreen('screen-menu')">내 주변 교통정보 및 콜택시 확인</button>
-        <button class="btn-dark" onclick="changeScreen('screen-feedback')">의견 제시</button>
-    </div>
-
-    <div id="screen-menu" class="app-screen">
-        <h2>교통정보 화면</h2>
-        <button class="btn-blue" onclick="changeScreen('screen-bus')">버스 정보 확인</button>
-        <button class="btn-blue" onclick="changeScreen('screen-subway')">지하철 정보 확인</button>
-        <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
-        <button class="btn-dark" onclick="changeScreen('screen-home')">처음으로 돌아가기</button>
-    </div>
-
-    <div id="screen-bus" class="app-screen">
-        <h2>주변 버스 정보</h2>
-        <ul>
-            <li><span>472 (간선)</span> <span style="color: red; font-weight: bold;">곧 도착</span></li>
-            <li><span>602 (간선)</span> <span>5분 후</span></li>
-            <li><span>700 (간선)</span> <span>12분 후</span></li>
-        </ul>
-        <div class="spacer"></div>
-        <button class="btn-dark" onclick="changeScreen('screen-menu')">뒤로 가기</button>
-        <button class="btn-dark" onclick="changeScreen('screen-home')">처음으로 돌아가기</button>
-    </div>
-
-    <div id="screen-subway" class="app-screen">
-        <h2>지하철 정보</h2>
-        <p style="text-align: center; font-size: 14px; color: #555;">내 주변 점류장에 정차하는<br>지하철역을 확인하세요.</p>
-        <button class="btn-blue" onclick="changeScreen('screen-subway-ahyeon')">아현역</button>
-        <button class="btn-blue" onclick="changeScreen('screen-subway-chung')">충정로역</button>
-        <button class="btn-blue" onclick="changeScreen('screen-subway-ewha')">이대역</button>
-        <div class="spacer"></div>
-        <button class="btn-dark" onclick="changeScreen('screen-menu')">뒤로 가기</button>
-        <button class="btn-dark" onclick="changeScreen('screen-home')">처음으로 돌아가기</button>
-    </div>
-
-    <div id="screen-subway-ahyeon" class="app-screen">
-        <h2>아현역 시설정보</h2>
-        <ul>
-            <li>엘리베이터 <span>🟢</span></li>
-            <li>이동식 안전발판 <span>🟢</span></li>
-            <li>전동휠체어 급속충전기 <span>🔴</span></li>
-            <li>장애인화장실 <span>🟢</span></li>
-        </ul>
-        <div class="spacer"></div>
-        <button class="btn-green"
+        <h1 style="text-align: center; margin-top: 50px;">환영합니다
