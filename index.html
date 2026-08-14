@@ -5,88 +5,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교통약자 이동지원 앱</title>
     <style>
-        /* 웹 브라우저 전체 배경 */
+        /* 기본 전체 화면 레이아웃 */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #e9ecef;
+            background-color: #f1f3f5;
             margin: 0;
-            font-family: 'Malgun Gothic', sans-serif;
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
         }
 
-        /* 📱 스마트폰 형태의 앱 화면 틀 */
+        /* 📱 모바일 앱 프레임 고정 */
         #app-container {
             width: 360px;
             height: 700px;
-            background-color: white;
+            background-color: #ffffff;
             border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             position: relative;
+            overflow: hidden;
         }
 
-        /* 모든 화면 기본 숨김 */
+        /* ⭐️ 화면을 한 위치에 절대좌표(absolute)로 포개어 겹쳐놓기 (전환 문제 완전 해결) */
         .app-screen {
-            display: none !important; 
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             padding: 20px;
             box-sizing: border-box;
+            background-color: #ffffff;
+            display: none; /* 기본 숨김 */
             flex-direction: column;
             overflow-y: auto;
-            background-color: white;
         }
 
-        /* 활성화된 화면만 보여줌 */
+        /* active 상태인 단 하나의 화면만 표시 */
         .app-screen.active {
-            display: flex !important; 
+            display: flex !important;
         }
 
-        h2 { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; font-size: 18px;}
-        
-        .spacer { flex-grow: 1; }
-        
-        /* 버튼 디자인 */
+        h2 {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        /* 하단 공간 채우기용 Spacer */
+        .spacer {
+            flex-grow: 1;
+        }
+
+        /* 버튼 스타일 지정 */
         button {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             margin-bottom: 10px;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: opacity 0.15s ease-in-out;
         }
-        button:active { opacity: 0.7; }
-        
-        /* 버튼 색상 */
-        .btn-blue { background-color: #3b5bdb; color: white; }
-        .btn-green { background-color: #2b8a3e; color: white; }
-        .btn-dark { background-color: #343a40; color: white; }
-        .btn-outline { background-color: white; color: #333; border: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;}
-        
-        /* 지하철 호선 뱃지 */
-        .badge { padding: 3px 8px; border-radius: 12px; font-size: 12px; color: white; font-weight: bold; margin-left: 5px; }
-        .line-2 { background-color: #00A84D; } /* 2호선 초록색 */
-        .line-5 { background-color: #996CAC; } /* 5호선 보라색 */
 
-        /* 버스 리스트 디자인 */
-        ul { list-style: none; padding: 0; margin: 0; }
-        ul li { 
-            padding: 15px 5px; 
-            border-bottom: 1px solid #ddd; 
-            display: flex; 
-            justify-content: space-between; 
+        button:active {
+            opacity: 0.7;
+        }
+
+        /* 버튼 컬러 가이드 (기획안 맞춤) */
+        .btn-main { background-color: #4263Eb; color: white; } /* 주요 파란색 버튼 */
+        .btn-green { background-color: #2F9E44; color: white; } /* 의견제시 초록색 버튼 */
+        .btn-dark { background-color: #495057; color: white; } /* 이전으로 돌아가기 회색 버튼 */
+        .btn-list {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #dee2e6;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
         }
-        .bus-num { font-size: 20px; font-weight: bold; color: #3b5bdb; }
-        .bus-num.jisun { color: #2b8a3e; } /* 지선버스 초록색 */
-        .bus-type { font-size: 12px; color: #666; margin-left: 5px; }
-        .bus-info { text-align: right; font-size: 14px; font-weight: bold;}
-        .bus-info small { display: block; font-size: 11px; color: #888; font-weight: normal;}
+
+        /* 버스 및 시설 리스트 스타일 */
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+        }
+
+        .info-list li {
+            padding: 11px 8px;
+            border-bottom: 1px solid #edf2f7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .bus-name {
+            font-weight: bold;
+            color: #1c7ed6;
+        }
+
+        .status-ok { color: #2f9e44; font-weight: bold; }
+        .status-no { color: #e03131; font-weight: bold; }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            resize: none;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
     </style>
 </head>
 <body>
@@ -94,4 +135,210 @@
 <div id="app-container">
 
     <div id="screen-home" class="app-screen active">
-        <h1 style="text-align: center; margin-top: 50px;">환영합니다
+        <div style="text-align: center; margin-top: 60px;">
+            <h1 style="font-size: 24px; color: #212529; margin-bottom: 8px;">환영합니다!</h1>
+            <p style="color: #868e96; font-size: 14px;">원하시는 서비스를 아래에서 선택해 주세요.</p>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn-main" onclick="changeScreen('screen-sub-home')">내 주변 교통정보 및 콜택시 확인</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+    </div>
+
+    <div id="screen-sub-home" class="app-screen">
+        <h2>내 주변 교통정보 및 콜택시 확인</h2>
+        <p style="text-align: center; color: #868e96; font-size: 13px;">원하시는 서비스를 아래에서 선택해 주세요.</p>
+        <button class="btn-main" onclick="changeScreen('screen-traffic')">내 주변 교통정보 확인</button>
+        <button class="btn-main" onclick="changeScreen('screen-calltaxi')">장애인 콜택시 접수</button>
+        <div class="spacer"></div>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-traffic" class="app-screen">
+        <h2>교통정보 화면</h2>
+        <button class="btn-main" onclick="changeScreen('screen-bus')">버스 정보 확인</button>
+        <button class="btn-main" onclick="changeScreen('screen-subway')">지하철 정보 확인</button>
+        <div class="spacer"></div>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-bus" class="app-screen">
+        <h2>주변 저상버스 정보</h2>
+        <ul class="info-list">
+            <li><span class="bus-name">서대문05</span> <span class="status-ok">저상버스 운행중</span></li>
+            <li><span class="bus-name">서대문04</span> <span class="status-ok">저상버스 0대 운행중</span></li>
+            <li><span class="bus-name">마포03</span> <span class="status-ok">저상버스 0대 운행중</span></li>
+            <li><span class="bus-name">171</span> <span class="status-ok">저상버스 17/29대 운행중</span></li>
+            <li><span class="bus-name">172</span> <span class="status-ok">저상버스 0/26대 운행중</span></li>
+            <li><span class="bus-name">270</span> <span class="status-ok">저상버스 30/33대 운행중</span></li>
+            <li><span class="bus-name">271</span> <span class="status-ok">저상버스 39/45대 운행중</span></li>
+            <li><span class="bus-name">273</span> <span class="status-ok">저상버스 39/39대 운행중</span></li>
+            <li><span class="bus-name">472</span> <span class="status-ok">저상버스 31/31대 운행중</span></li>
+            <li><span class="bus-name">602</span> <span class="status-ok">저상버스 26/26대 운행중</span></li>
+            <li><span class="bus-name">603</span> <span class="status-ok">저상버스 12/21대 운행중</span></li>
+            <li><span class="bus-name">700</span> <span class="status-ok">저상버스 24/24대 운행중</span></li>
+            <li><span class="bus-name">721</span> <span class="status-ok">저상버스 27/37대 운행중</span></li>
+            <li><span class="bus-name">742</span> <span class="status-ok">저상버스 32/32대 운행중</span></li>
+            <li><span class="bus-name">7011</span> <span class="status-ok">저상버스 18/21대 운행중</span></li>
+            <li><span class="bus-name">7017</span> <span class="status-ok">저상버스 22/23대 운행중</span></li>
+            <li><span class="bus-name">7611</span> <span class="status-ok">저상버스 14/17대 운행중</span></li>
+            <li><span class="bus-name">1004</span> <span class="status-ok">저상버스 0대 운행중</span></li>
+            <li><span class="bus-name">N26</span> <span class="status-ok">저상버스 10/10대 운행중</span></li>
+            <li><span class="bus-name">N51</span> <span class="status-ok">저상버스 4/8대 운행중</span></li>
+            <li><span class="bus-name">N62</span> <span class="status-ok">저상버스 9/12대 운행중</span></li>
+            <li><span class="bus-name">N73</span> <span class="status-ok">저상버스 7/8대 운행중</span></li>
+            <li><span class="bus-name">N75</span> <span class="status-ok">저상버스 12/12대 운행중</span></li>
+            <li><span class="bus-name">심야A21</span> <span class="status-ok">저상버스 2/2대 운행중</span></li>
+            <li><span class="bus-name">6002</span> <span class="status-ok">저상버스 0대 운행중</span></li>
+        </ul>
+        <div class="spacer"></div>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-subway" class="app-screen">
+        <h2>지하철 정보</h2>
+        <p style="text-align: center; color: #868e96; font-size: 13px; margin-bottom: 20px;">
+            내 주변 정류장에 정차하는<br>지하철역 정보를 확인하세요.
+        </p>
+        <button class="btn-list" onclick="changeScreen('screen-ahyeon')">
+            <span>아현역</span> <span>&gt;</span>
+        </button>
+        <button class="btn-list" onclick="changeScreen('screen-chungjeongno')">
+            <span>충정로역</span> <span>&gt;</span>
+        </button>
+        <button class="btn-list" onclick="changeScreen('screen-ewha')">
+            <span>이대역</span> <span>&gt;</span>
+        </button>
+        <div class="spacer"></div>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-ahyeon" class="app-screen">
+        <h2>아현역 시설 정보</h2>
+        <ul class="info-list">
+            <li><span>엘리베이터</span> <span class="status-ok">4대 설치 완료 🟢</span></li>
+            <li><span>이동식 안전발판</span> <span class="status-ok">1개 비치 완료 🟢</span></li>
+            <li><span>전동휠체어 급속충전기</span> <span class="status-ok">1개 설치 완료 🟢</span></li>
+            <li><span>장애인화장실</span> <span class="status-ok">1개 이용 가능 🟢</span></li>
+            <li><span>음성유도기</span> <span class="status-ok">2개 설치 완료 🟢</span></li>
+        </ul>
+        <div class="spacer"></div>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-chungjeongno" class="app-screen">
+        <h2>충정로역 시설 정보</h2>
+        <ul class="info-list">
+            <li><span>엘리베이터</span> <span class="status-ok">2대 설치 완료 🟢</span></li>
+            <li><span>이동식 안전발판</span> <span class="status-ok">1개 비치 완료 🟢</span></li>
+            <li><span>전동휠체어 급속충전기</span> <span class="status-ok">1개 설치 완료 🟢</span></li>
+            <li><span>장애인화장실</span> <span class="status-ok">1개 이용 가능 🟢</span></li>
+            <li><span>음성유도기</span> <span class="status-ok">16개 설치 완료 🟢</span></li>
+        </ul>
+        <div class="spacer"></div>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-ewha" class="app-screen">
+        <h2>이대역 시설 정보</h2>
+        <ul class="info-list">
+            <li><span>엘리베이터</span> <span class="status-ok">3대 설치 완료 🟢</span></li>
+            <li><span>이동식 안전발판</span> <span class="status-ok">1개 비치 완료 🟢</span></li>
+            <li><span>전동휠체어 급속충전기</span> <span class="status-ok">1개 설치 완료 🟢</span></li>
+            <li><span>장애인화장실</span> <span class="status-ok">1개 이용 가능 🟢</span></li>
+            <li><span>음성유도기</span> <span class="status-ok">21개 설치 완료 🟢</span></li>
+        </ul>
+        <div class="spacer"></div>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-calltaxi" class="app-screen">
+        <h2>콜택시 안내</h2>
+        <button class="btn-main" onclick="window.open('https://www.sisul.or.kr/open_content/calltaxi/guidance/internet.jsp')">
+            서울시 장애인 콜택시 인터넷 예약
+        </button>
+        <button class="btn-main" onclick="window.open('https://www.sisul.or.kr/open_content/calltaxi/')">
+            서울시 장애인 콜택시 안내 홈페이지
+        </button>
+        <div class="spacer"></div>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-feedback" class="app-screen">
+        <h2>의견 제시</h2>
+        <p style="font-size: 13px; color: #868e96; margin-bottom: 10px;">불편사항이나 건의사항을 남겨주시면 반영하겠습니다.</p>
+        <textarea placeholder="의견을 자유롭게 입력해 주세요..."></textarea>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-done')">의견 제출하기</button>
+        <div class="spacer"></div>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <div id="screen-feedback-done" class="app-screen">
+        <h2>의견 제시 완료</h2>
+        <div style="text-align: center; margin-top: 60px;">
+            <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
+            <p style="font-size: 15px; color: #333; line-height: 1.5;">
+                사용자님의 소중한 한마디가<br>큰 힘이 됩니다.
+            </p>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn-green" onclick="changeScreen('screen-feedback')">다른 의견 작성하기</button>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+</div>
+
+<script>
+    // ⭐️ 이전 화면 기억을 위한 히스토리 스택(Stack)
+    let pageHistory = [];
+
+    // 다음 화면으로 넘어가는 함수
+    function changeScreen(targetId) {
+        const currentActive = document.querySelector('.app-screen.active');
+       
+        // 현재 화면의 ID를 히스토리에 기록 (중복 저장 방지)
+        if (currentActive && currentActive.id !== targetId) {
+            pageHistory.push(currentActive.id);
+        }
+
+        // 모든 화면 숨김
+        const allScreens = document.querySelectorAll('.app-screen');
+        allScreens.forEach(screen => screen.classList.remove('active'));
+
+        // 목표 화면만 켜기
+        const targetScreen = document.getElementById(targetId);
+        if (targetScreen) {
+            targetScreen.classList.add('active');
+            targetScreen.scrollTop = 0; // 스크롤 맨 위로 초기화
+        }
+    }
+
+    // "이전화면으로 돌아가기" 함수
+    function goBack() {
+        if (pageHistory.length > 0) {
+            // 가장 직전에 있던 화면 ID를 꺼냄
+            const prevScreenId = pageHistory.pop();
+
+            const allScreens = document.querySelectorAll('.app-screen');
+            allScreens.forEach(screen => screen.classList.remove('active'));
+
+            const targetScreen = document.getElementById(prevScreenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+                targetScreen.scrollTop = 0;
+            }
+        } else {
+            // 더 이상 이전 기록이 없으면 처음화면으로
+            changeScreen('screen-home');
+        }
+    }
+</script>
+
+</body>
+</html>
