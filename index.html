@@ -79,7 +79,7 @@
             opacity: 0.7;
         }
 
-        /* 버튼 컬러 가이드 (기획안 맞춤) */
+        /* 버튼 컬러 가이드 */
         .btn-main { background-color: #4263Eb; color: white; } /* 주요 파란색 버튼 */
         .btn-green { background-color: #2F9E44; color: white; } /* 의견제시 초록색 버튼 */
         .btn-dark { background-color: #495057; color: white; } /* 이전으로 돌아가기 회색 버튼 */
@@ -141,7 +141,7 @@
         </div>
         <div class="spacer"></div>
         <button class="btn-main" onclick="changeScreen('screen-sub-home')">내 주변 교통정보 및 콜택시 확인</button>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">의견 제시</button>
     </div>
 
     <div id="screen-sub-home" class="app-screen">
@@ -150,7 +150,7 @@
         <button class="btn-main" onclick="changeScreen('screen-traffic')">내 주변 교통정보 확인</button>
         <button class="btn-main" onclick="changeScreen('screen-calltaxi')">장애인 콜택시 접수</button>
         <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">의견 제시</button>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
@@ -159,7 +159,7 @@
         <button class="btn-main" onclick="changeScreen('screen-bus')">버스 정보 확인</button>
         <button class="btn-main" onclick="changeScreen('screen-subway')">지하철 정보 확인</button>
         <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">의견 제시</button>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
@@ -193,7 +193,7 @@
             <li><span class="bus-name">6002</span> <span class="status-ok">저상버스 0대 운행중</span></li>
         </ul>
         <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">의견 제시</button>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
@@ -225,7 +225,7 @@
             <li><span>음성유도기</span> <span class="status-ok">2개 설치 완료 🟢</span></li>
         </ul>
         <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">의견 제시</button>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
@@ -239,7 +239,7 @@
             <li><span>음성유도기</span> <span class="status-ok">16개 설치 완료 🟢</span></li>
         </ul>
         <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">의견 제시</button>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
@@ -253,7 +253,7 @@
             <li><span>음성유도기</span> <span class="status-ok">21개 설치 완료 🟢</span></li>
         </ul>
         <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">의견 제시</button>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
@@ -266,21 +266,56 @@
             서울시 장애인 콜택시 안내 홈페이지
         </button>
         <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">의견 제시</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">의견 제시</button>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
-    <div id="screen-feedback" class="app-screen">
+    <!-- ⭐️ 새롭게 추가된 의견 제시 메뉴 화면 -->
+    <div id="screen-feedback-menu" class="app-screen">
         <h2>의견 제시</h2>
-        <p style="font-size: 13px; color: #868e96; margin-bottom: 10px;">불편사항이나 건의사항을 남겨주시면 반영하겠습니다.</p>
-        <textarea placeholder="의견을 자유롭게 입력해 주세요..."></textarea>
+        <p style="text-align: center; color: #868e96; font-size: 13px; margin-bottom: 20px;">
+            원하시는 작성 항목을 선택해 주세요.
+        </p>
+        <button class="btn-main" onclick="changeScreen('screen-feedback-realtime')">실시간 현장 제보</button>
+        <button class="btn-main" onclick="changeScreen('screen-feedback-inconvenience')">불편사항 기재</button>
+        <button class="btn-main" onclick="changeScreen('screen-feedback-policy')">복지정책 수요도조사</button>
+        <div class="spacer"></div>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <!-- 1. 실시간 현장 제보 화면 -->
+    <div id="screen-feedback-realtime" class="app-screen">
+        <h2>실시간 현장 제보</h2>
+        <p style="font-size: 13px; color: #868e96; margin-bottom: 10px;">현장의 실시간 상황을 빠르게 제보해 주세요.</p>
+        <textarea placeholder="예: 00역 엘리베이터가 고장나서 수리가 필요합니다."></textarea>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-done')">제보 제출하기</button>
+        <div class="spacer"></div>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <!-- 2. 불편사항 기재 화면 -->
+    <div id="screen-feedback-inconvenience" class="app-screen">
+        <h2>불편사항 기재</h2>
+        <p style="font-size: 13px; color: #868e96; margin-bottom: 10px;">앱이나 시설 이용 중 불편했던 점을 남겨주세요.</p>
+        <textarea placeholder="불편사항을 자유롭게 입력해 주세요..."></textarea>
         <button class="btn-green" onclick="changeScreen('screen-feedback-done')">의견 제출하기</button>
         <div class="spacer"></div>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
+    <!-- 3. 복지정책 수요도조사 화면 -->
+    <div id="screen-feedback-policy" class="app-screen">
+        <h2>복지정책 수요도조사</h2>
+        <p style="font-size: 13px; color: #868e96; margin-bottom: 10px;">필요하다고 생각하시는 복지정책을 제안해 주세요.</p>
+        <textarea placeholder="바라는 복지정책이나 개선 아이디어를 적어주세요..."></textarea>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-done')">정책 제안하기</button>
+        <div class="spacer"></div>
+        <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
+    </div>
+
+    <!-- 의견 제시 완료 -->
     <div id="screen-feedback-done" class="app-screen">
-        <h2>의견 제시 완료</h2>
+        <h2>제출 완료</h2>
         <div style="text-align: center; margin-top: 60px;">
             <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
             <p style="font-size: 15px; color: #333; line-height: 1.5;">
@@ -288,7 +323,7 @@
             </p>
         </div>
         <div class="spacer"></div>
-        <button class="btn-green" onclick="changeScreen('screen-feedback')">다른 의견 작성하기</button>
+        <button class="btn-green" onclick="changeScreen('screen-feedback-menu')">다른 의견 작성하기</button>
         <button class="btn-dark" onclick="goBack()">이전화면으로 돌아가기</button>
     </div>
 
@@ -301,7 +336,7 @@
     // 다음 화면으로 넘어가는 함수
     function changeScreen(targetId) {
         const currentActive = document.querySelector('.app-screen.active');
-       
+        
         // 현재 화면의 ID를 히스토리에 기록 (중복 저장 방지)
         if (currentActive && currentActive.id !== targetId) {
             pageHistory.push(currentActive.id);
